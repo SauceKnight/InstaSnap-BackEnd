@@ -12,10 +12,12 @@ module.exports = {
         type: Sequelize.STRING
       },
       userID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Users" }
       },
       postID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: { model: "Posts" }
       },
       createdAt: {
         allowNull: false,

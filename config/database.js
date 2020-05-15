@@ -17,6 +17,7 @@ module.exports = {
     production: {
         "dialect": "postgres",
         "seederStorage": "sequelize",
-        "use_env_variable": "DATABASE_URL"
+        "use_env_variable": "DATABASE_URL",
+        "host": process.env.DATABASE_URL
     }
 };

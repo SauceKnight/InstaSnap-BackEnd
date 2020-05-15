@@ -12,7 +12,9 @@ module.exports = {
         type: Sequelize.STRING
       },
       userID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: { model: "Users" }
       },
       image: {
         type: Sequelize.STRING

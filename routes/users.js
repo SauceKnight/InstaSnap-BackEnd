@@ -20,6 +20,16 @@ const validateEmailAndPassword = [
     handleValidationErrors
 ];
 
+const validateUserNameAndPassword = [
+    check('username')
+        .exists({ checkFalsy: true })
+        .withMessage('Please enter a username.'),
+    check('password')
+        .exists({ checkFalsy: true })
+        .withMessage('Please give a password.'),
+    handleValidationErrors
+];
+
 const validateUsername = [
     check("username")
         .exists({ checkFalsy: true })
@@ -43,12 +53,12 @@ router.post('/users', validateUsername, validateEmailAndPassword, asyncHandler(a
 }));
 
 // Log-in
-router.post('/users/token', validateEmailAndPassword, handleValidationErrors, asyncHandler(async (req, res, next) => {
+router.post('/users/token', validateUserNameAndPassword, handleValidationErrors, asyncHandler(async (req, res, next) => {
     // Get values from form:
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    // Find user with email:
-    const user = await User.findOne({ where: { userEmail: email } });
+    // Find user with username:
+    const user = await User.findOne({ where: { userName: username } });
 
     // If user is not found or password does not match, make new error object:
     if (!user || !user.validatePassword(password)) {
