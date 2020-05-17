@@ -56,7 +56,7 @@ router.post('/users', validateUsername, validateEmailAndPassword, asyncHandler(a
 router.get('/profile/:userName', asyncHandler(async (req, res, next) => {
 
     const user = req.params.userName;
-    const userProfile = await User.findOne({ include: Post, order: [['createdAt', 'DESC']], where: { userName: user } });
+    const userProfile = await User.findOne({ include: Post, order: [[Post, 'createdAt', 'DESC']], where: { userName: user } });
 
     res.json({ userProfile });
 }));
