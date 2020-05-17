@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.get('/posts', asyncHandler(async (req, res, next) => {
-    const posts = await Post.findAll({ include: User });
+    const posts = await Post.findAll({ include: User, order: [['createdAt', 'DESC']] });
 
     res.json({ posts });
 }));

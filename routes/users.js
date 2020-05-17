@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const router = express.Router();
 const { check } = require("express-validator");
 
-const { User } = require('../db/models');
+const { User, Post } = require('../db/models');
 const { asyncHandler, handleValidationErrors } = require('../utils');
 const { getUserToken, requireAuth } = require('../auth');
 
@@ -47,9 +47,18 @@ router.get('/user/:user_id', asyncHandler(async (req, res, next) => {
 router.post('/users', validateUsername, validateEmailAndPassword, asyncHandler(async (req, res, next) => {
     const { username, email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await User.create({ userName: username, userEmail: email, hashedPassword });
+    const profilePic = 'https://cdn.pixabay.com/photo/2016/08/09/17/52/instagram-1581266_960_720.jpg'
+    const user = await User.create({ userName: username, userEmail: email, hashedPassword, profilePic: profilePic });
     const token = getUserToken(user);
     res.status(201).json({ token, user: { id: user.id, name: user.userName } });
+}));
+
+router.get('/profile/:userName', asyncHandler(async (req, res, next) => {
+
+    const user = req.params.userName;
+    const userProfile = await User.findOne({ include: Post, order: [['createdAt', 'DESC']], where: { userName: user } });
+
+    res.json({ userProfile });
 }));
 
 // Log-in
