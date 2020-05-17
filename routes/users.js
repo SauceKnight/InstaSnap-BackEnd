@@ -37,9 +37,9 @@ const validateUsername = [
 ]
 
 
-router.get('/user/:user_id', asyncHandler(async (req, res, next) => {
-    const userID = parseInt(req.params.user_id, 10);
-    const user = await User.findByPk(userID);
+router.get('/user/:user_name', asyncHandler(async (req, res, next) => {
+    const selectedUser = req.params.user_name;
+    const user = await User.findOne({ where: { userName: selectedUser } });
 
     res.json({ user });
 }));
