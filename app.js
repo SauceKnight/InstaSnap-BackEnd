@@ -7,6 +7,7 @@ const app = express();
 
 const usersRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');
+const indexRouter = require('./routes/index');
 
 app.use(morgan("dev"));
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use(cors({ origin: true }));
 //Routers are last middleware passed in ALWAYS
 app.use(usersRouter);
 app.use(postsRouter);
+app.use(indexRouter);
 
 // Catch unhandled requests and forward to error handler.
 app.use((req, res, next) => {
