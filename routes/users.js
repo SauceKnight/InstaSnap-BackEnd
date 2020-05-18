@@ -53,6 +53,14 @@ router.post('/users', validateUsername, validateEmailAndPassword, asyncHandler(a
     res.status(201).json({ token, user: { id: user.id, name: user.userName } });
 }));
 
+router.put('/user/:userName', validateUsername, asyncHandler(async (req, res, next) => {
+    const { username, email, image } = req.body;
+    const user = req.params.userName;
+    const userProfile = await User.findOne({ where: { userName: user } });
+    userProfile.update({ userName: username, userEmail: email, profilePic: image });
+    res.status(201).json({ userProfile });
+}));
+
 router.get('/profile/:userName', asyncHandler(async (req, res, next) => {
 
     const user = req.params.userName;
